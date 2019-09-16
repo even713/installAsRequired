@@ -1,4 +1,5 @@
 "use strict";
+const path = require("path");
 const utils = require("./utils");
 const webpack = require("webpack");
 const config = require("../config");
@@ -12,12 +13,9 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 const env = require("../config/prod.env");
 
-// 整理入口
-const components = require("../components.json");
-const entrys = {};
-Object.keys(components).forEach(item => {
-  entrys[item] = components[item];
-});
+const entrys = require("./getComponents.js")(
+  path.resolve(__dirname, "../src/components")
+);
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: entrys,
